@@ -7,7 +7,7 @@ def readme():
 
 
 setup(
-  name='aiolava',
+  name='aiolavapy',
   version='0.1.0',
   author='reff06',
   author_email='info@dnsprovider.tech',

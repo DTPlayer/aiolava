@@ -5,11 +5,11 @@
 ```python
 import asyncio
 
-from aiolava import BusinessClient
+from aiolava import LavaBusinessClient
 
 
 async def main():
-    client = BusinessClient(
+    client = LavaBusinessClient(
         private_key="INSERT_PRIVATE_KEY",
         shop_id="INSERT_SHOP_ID"  # optional
     )
