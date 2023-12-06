@@ -14,7 +14,7 @@ setup(
   description='Async library for Lava API',
   long_description=readme(),
   long_description_content_type='text/markdown',
-  url='https://dev.lava.ru/',
+  url='https://github.com/DTPlayer/aiolava',
   packages=find_packages(),
   install_requires=['aiohttp>=3.9.1', "pydantic>=2.0.2"],
   classifiers=[
@@ -24,7 +24,7 @@ setup(
   ],
   keywords='lava aiolava lavaapi',
   project_urls={
-    'Documentation': 'link'
+    'Official documentation': 'https://dev.lava.ru/',
   },
   python_requires='>=3.10'
 )
