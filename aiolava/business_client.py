@@ -14,7 +14,7 @@ _LTT = TypeVar("_LTT", bound=LavaType)
 class LavaBusinessClient(BaseClient):
     def __init__(self,
                  private_key: str,
-                 shop_id: str = None,
+                 shop_id: str,
                  ):
 
         self.private_key = private_key

@@ -11,7 +11,6 @@ from aiolava import BusinessClient
 async def main():
     client = BusinessClient(
         private_key="INSERT_PRIVATE_KEY",
-        mics_key="INSERT_MICS_KEY",
         shop_id="INSERT_SHOP_ID"  # optional
     )
     
