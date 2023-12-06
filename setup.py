@@ -8,7 +8,7 @@ def readme():
 
 setup(
   name='aiolavapy',
-  version='0.1.0',
+  version='0.1.2',
   author='reff06',
   author_email='info@dnsprovider.tech',
   description='Async library for Lava API',
