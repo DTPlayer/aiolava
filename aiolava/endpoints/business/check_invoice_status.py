@@ -1,9 +1,7 @@
-from pydantic.v1 import root_validator
-
 from aiolava.misc import HTTPMethod
 from aiolava.endpoints.base import LavaEndpoint
-
 from aiolava.types.business.check_invoice_status import CheckInvoiceStatusResponse
+from pydantic import model_validator
 
 
 class CheckInvoiceStatus(LavaEndpoint):
@@ -15,7 +13,8 @@ class CheckInvoiceStatus(LavaEndpoint):
     orderId: str = None
     invoiceId: str = None
 
-    @root_validator()
+    @model_validator(mode='before')
+    @classmethod
     def check_invoice_identify_possibility(cls, values):
         if values.get("orderId") is None and values.get("invoiceId") is None:
             raise ValueError("invoice can't be identified, nether of `orderId` nor `invoiceId` are specified")

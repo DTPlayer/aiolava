@@ -1,7 +1,8 @@
 from typing import List
 from datetime import datetime
+from pydantic import RootModel
 
-from aiolava.types.base import LavaType, RootMixin
+from aiolava.types.base import LavaType
 
 
 class Wallet(LavaType):
@@ -10,5 +11,5 @@ class Wallet(LavaType):
     balance: float
 
 
-class WalletListResponse(LavaType, RootMixin[Wallet]):
-    __root__: List[Wallet]
+class WalletListResponse(RootModel[List[Wallet]]):
+    pass

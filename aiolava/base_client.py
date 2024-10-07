@@ -15,6 +15,7 @@ import logging
 _LTT = TypeVar("_LTT", bound=LavaType)
 
 
+
 class BaseClient:
     _BASE_URL = 'https://api.lava.ru'
 
@@ -23,7 +24,7 @@ class BaseClient:
         raise NotImplemented
 
     async def _execute_request(self, request: LavaEndpoint[_LTT]) -> _LTT:
-        payload = request.dict(exclude_none=True)
+        payload = request.model_dump(mode='json')
         headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -55,8 +56,18 @@ class BaseClient:
             logging.error(f"Error while parsing response: {text}")
             data = await response.json()
 
-        parsed_data = request.__returns__.parse_obj(data)
-        return parsed_data
+            logging.info(f"Request: {data}")
+
+        try:
+            parsed_data = request.__returns__.model_validate(data)
+            return parsed_data
+        except Exception:
+            raise LavaRequestError(
+                data=data.get('data'),
+                status=data.get('status'),
+                error=data.get('error'),
+                status_check=data.get('status_check')
+            )
 
 
 __all__ = [

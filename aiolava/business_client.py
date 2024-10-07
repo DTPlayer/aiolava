@@ -1,11 +1,15 @@
 import json
-from typing import List, Union, TypeVar
+from typing import List, Union, TypeVar, Optional
 import hmac
 import hashlib
 
-from .base_client import BaseClient
-from .endpoints import business as endpoints
-from .types.base import LavaType
+import logging
+
+from aiolava.base_client import BaseClient
+from aiolava.endpoints import business as endpoints
+from aiolava.types.base import LavaType
+
+import warnings
 
 
 _LTT = TypeVar("_LTT", bound=LavaType)
@@ -34,26 +38,32 @@ class LavaBusinessClient(BaseClient):
 
     async def create_invoice(
             self,
-            sum_: float,
             order_id: Union[str, int],
-            shop_id: str = None,
-            hook_url: str = None,
-            fail_url: str = None,
-            success_url: str = None,
-            expire: int = None,
-            custom_fields: str = None,
-            comment: str = None,
-            include_service: List[str] = None,
-            exclude_service: List[str] = None,
+            amount: Optional[float],
+            sum_: Optional[float] = None,
+            shop_id: Optional[str] = None,
+            hook_url: Optional[str] = None,
+            fail_url: Optional[str] = None,
+            success_url: Optional[str] = None,
+            expire: Optional[int] = None,
+            custom_fields: Optional[str] = None,
+            comment: Optional[str] = None,
+            include_service: Optional[List[str]] = None,
+            exclude_service: Optional[List[str]] = None,
     ) -> endpoints.CreateInvoice.__returns__:
+        
+        if sum_:
+            warnings.warn("sum_ is deprecated, use amount instead", DeprecationWarning)
+            amount = sum_
 
-        if shop_id is None:
-            shop_id = self.shop_id
+        if shop_id:
+            warnings.warn("shop_id is not provided, using default", DeprecationWarning)
+            self.shop_id = shop_id
 
         request = endpoints.CreateInvoice(
-            sum=sum_,
+            sum=amount,
+            shopId=self.shop_id,
             orderId=order_id,
-            shopId=shop_id or self.shop_id,
             hookUrl=hook_url,
             failUrl=fail_url,
             successUrl=success_url,
