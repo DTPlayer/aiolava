@@ -3,9 +3,13 @@ from abc import abstractmethod
 
 from aiohttp import ClientSession
 
-from .misc import HTTPMethod
-from .endpoints.base import LavaEndpoint
-from .types.base import LavaType
+from aiolava.misc import HTTPMethod
+from aiolava.endpoints.base import LavaEndpoint
+from aiolava.types.base import LavaType
+
+from aiolava.exceptions.lava_exceptions import LavaRequestError
+
+import logging
 
 
 _LTT = TypeVar("_LTT", bound=LavaType)
@@ -47,6 +51,8 @@ class BaseClient:
         ) as cs:
 
             response = await cs.request(**request_call_arguments)
+            text = await response.text()
+            logging.error(f"Error while parsing response: {text}")
             data = await response.json()
 
         parsed_data = request.__returns__.parse_obj(data)
